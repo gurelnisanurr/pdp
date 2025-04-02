@@ -52,7 +52,7 @@ public class Simulasyon {
                     .filter(gezegen -> gezegen.getAdi().equals(arac.getCikisGezegeni()))
                     .findFirst()
                     .ifPresent(gezegen -> {
-                        if (arac.hareketeGec(gezegenZamanlari.get(gezegenler.indexOf(gezegen)))) {
+                        if (!arac.isHareketEtti() && arac.hareketeGec(gezegenZamanlari.get(gezegenler.indexOf(gezegen)))) {
                             hareketEdecekAraclar.add(arac);
                             System.out.println("\uD83D\uDE80 " + arac.getAdi() + " ÇIKIŞ YAPTI!");
                         } else if (arac.getMesafeSaat() > 0 && arac.isHareketEtti()) {
@@ -61,17 +61,36 @@ public class Simulasyon {
                         }
                     });
             }
-            
+
             araclar.removeIf(arac -> {
                 boolean imha = kisiler.stream().noneMatch(k -> k.getUzayAraciAdi().equals(arac.getAdi()));
-                if (imha) System.out.println("\uD83D\uDCA5 " + arac.getAdi() + " İMHA OLDU!");
+                if (imha) {
+                    arac.setHareketEtti(false);  // İmha olan aracın hareket durumunu güncelle
+                    System.out.println("\uD83D\uDCA5 " + arac.getAdi() + " İMHA OLDU!");
+                }
                 return imha;
             });
-            
+
             temizleKonsol();
             System.out.println("\n⏳ Simülasyon Zamanı: " + simülasyonSaati + " saat geçti");
             kisiler.forEach(System.out::println);
-            araclar.forEach(System.out::println);
+            araclar.forEach(arac -> {
+                Gezegen varisGezegeni = gezegenler.stream()
+                    .filter(g -> g.getAdi().equals(arac.getVarisGezegeni()))
+                    .findFirst()
+                    .orElse(null);
+
+                String varisTarihi = "--";
+                if (varisGezegeni != null) {
+                    Zaman varisZamani = new Zaman(varisGezegeni.getTarih());
+                    varisZamani.saatEkle(arac.getMesafeSaat(), varisGezegeni.getGunlukSaatSayisi());
+                    varisTarihi = varisZamani.getTarih();
+                }
+
+                String durum = arac.isImha() ? "IMHA" : "AKTIF";
+                System.out.println(String.format("%s | Durum: %s | Çıkış: %s | Varış: %s | Kalan Saat: %d | Varış Tarihi: %s",
+                    arac.getAdi(), durum, arac.getCikisGezegeni(), arac.getVarisGezegeni(), arac.getMesafeSaat(), varisTarihi));
+            });
             gezegenler.forEach(gezegen -> {
                 System.out.println(gezegen.getAdi() + " → " + gezegenZamanlari.get(gezegenler.indexOf(gezegen)).getTarih());
             });
