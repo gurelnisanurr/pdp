@@ -30,6 +30,3 @@ public class Kisi {
         return isim + " (Yaş: " + yas + ", Kalan Ömür: " + kalanOmur + ", Araç: " + uzayAraciAdi + ")";
     }
 }
-
-
-
