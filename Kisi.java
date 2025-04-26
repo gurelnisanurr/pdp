@@ -1,32 +1,47 @@
 package model;
 
 public class Kisi {
-    private String isim;
+    private String ad;
     private int yas;
-    private int kalanOmur;
-    private String uzayAraciAdi;
+    private int omur;
+    private String aracAdi;
 
-    public Kisi(String isim, int yas, int kalanOmur, String uzayAraciAdi) {
-        this.isim = isim;
+    public Kisi(String ad, int yas, int omur, String aracAdi) {
+        this.ad = ad;
         this.yas = yas;
-        this.kalanOmur = kalanOmur;
-        this.uzayAraciAdi = uzayAraciAdi;
+        this.omur = omur;
+        this.aracAdi = aracAdi;
     }
 
-    public void azaltOmur(int miktar) {
-        this.kalanOmur -= miktar;
+    public String getAd() {
+        return ad;
     }
 
-    public int getKalanOmur() {
-        return kalanOmur;
+    public int getYas() {
+        return yas;
     }
 
-    public String getUzayAraciAdi() {
-        return uzayAraciAdi;
+    public int getOmur() {
+        return omur;
     }
 
-    @Override
-    public String toString() {
-        return isim + " (Yaş: " + yas + ", Kalan Ömür: " + kalanOmur + ", Araç: " + uzayAraciAdi + ")";
+    public void yaslandir() {
+        yas++;
+    }
+
+    public void omurAzalt() {
+        omur--;
+    }
+
+    public boolean olduMu() {
+        return omur <= 0;
+    }
+
+    public String getAracAdi() {
+        return aracAdi;
+    }
+
+    public void setAracAdi(String aracAdi) {
+        this.aracAdi = aracAdi;
     }
 }
