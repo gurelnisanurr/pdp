@@ -1,25 +1,39 @@
 package model;
 
 public class Gezegen {
-    private String adi;
-    private int gunlukSaatSayisi;
-    private String tarih;
+    private String ad;
+    private int saatlikUzunluk;
+    private Zaman zaman;
+    private int nufus;
 
-    public Gezegen(String adi, int gunlukSaatSayisi, String tarih) {
-        this.adi = adi;
-        this.gunlukSaatSayisi = gunlukSaatSayisi;
-        this.tarih = tarih;
+    public Gezegen(String ad, int saatlikUzunluk, Zaman zaman, int nufus) {
+        this.ad = ad;
+        this.saatlikUzunluk = saatlikUzunluk;
+        this.zaman = zaman;
+        this.nufus = nufus;
     }
 
-    public int getGunlukSaatSayisi() {
-        return gunlukSaatSayisi;
+    public void saatIlerle() {
+        zaman.birSaatIlerle();
     }
 
-    public String getAdi() {
-        return adi;
+    public String getAd() {
+        return ad;
     }
 
-    public String getTarih() {
-        return tarih;
+    public int getNufus() {
+        return nufus;
+    }
+
+    public void nufusArttir(int sayi) {
+        nufus += sayi;
+    }
+
+    public void nufusAzalt(int sayi) {
+        nufus -= sayi;
+    }
+
+    public Zaman getZaman() {
+        return zaman;
     }
 }
