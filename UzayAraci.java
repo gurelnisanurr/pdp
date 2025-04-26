@@ -4,77 +4,79 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UzayAraci {
-    private String adi;
-    private String cikisGezegeni;
-    private String varisGezegeni;
-    private String cikisTarihi;
-    private int mesafeSaat;
-    private boolean hareketEtti;
+    private String ad;
+    private String cikis;
+    private String varis;
+    private Zaman hareketZamani;
+    private int mesafe;
     private List<Kisi> yolcular;
+    private boolean yolda;
+    private boolean imhaEdildi;
+    private int kalanSaat;
 
-    public UzayAraci(String adi, String cikisGezegeni, String varisGezegeni, String cikisTarihi, int mesafeSaat) {
-        this.adi = adi;
-        this.cikisGezegeni = cikisGezegeni;
-        this.varisGezegeni = varisGezegeni;
-        this.cikisTarihi = cikisTarihi;
-        this.mesafeSaat = mesafeSaat;
-        this.hareketEtti = false;
+    public UzayAraci(String ad, String cikis, String varis, Zaman hareketZamani, int mesafe) {
+        this.ad = ad;
+        this.cikis = cikis;
+        this.varis = varis;
+        this.hareketZamani = hareketZamani;
+        this.mesafe = mesafe;
+        this.kalanSaat = mesafe;
         this.yolcular = new ArrayList<>();
+        this.yolda = false;
+        this.imhaEdildi = false;
     }
 
-    public String getAdi() {
-        return adi;
+    public void yolaCik() {
+        yolda = true;
     }
 
-    public String getCikisGezegeni() {
-        return cikisGezegeni;
-    }
-
-    public String getVarisGezegeni() {
-        return varisGezegeni;
-    }
-
-    public String getCikisTarihi() {
-        return cikisTarihi;
-    }
-
-    public int getMesafeSaat() {
-        return mesafeSaat;
-    }
-
-    public boolean isHareketEtti() {
-        return hareketEtti;
-    }
-
-    public void setHareketEtti(boolean hareketEtti) {
-        this.hareketEtti = hareketEtti;
-    }
-
-    public void azaltMesafe(int saat) {
-        if (mesafeSaat > 0) {
-            mesafeSaat -= saat;
+    public void birSaatIlerle() {
+        if (yolda && kalanSaat > 0) {
+            kalanSaat--;
         }
     }
 
-    public boolean hareketeGec(Zaman gezegenZamani) {
-        if (!hareketEtti && gezegenZamani.getTarih().equals(cikisTarihi)) {
-            hareketEtti = true;
-            return true;
-        }
-        return false;
+    public boolean hedefeVardiMi() {
+        return yolda && kalanSaat == 0;
     }
 
-    public void yolcuEkle(Kisi kisi) {
-        yolcular.add(kisi);
+    public void imhaEt() {
+        imhaEdildi = true;
     }
 
-    public boolean isImha() {
-        return yolcular.stream().allMatch(kisi -> kisi.getKalanOmur() <= 0);
+    public boolean isYolda() {
+        return yolda;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s (Çıkış: %s, Varış: %s, Mesafe: %d, Yolcu Sayısı: %d)", 
-            adi, cikisGezegeni, varisGezegeni, mesafeSaat, yolcular.size());
+    public boolean isImhaEdildi() {
+        return imhaEdildi;
+    }
+
+    public void kisiEkle(Kisi k) {
+        yolcular.add(k);
+    }
+
+    public List<Kisi> getYolcular() {
+        return yolcular;
+    }
+
+    public String getAd() {
+        return ad;
+    }
+
+    public String getCikis() {
+        return cikis;
+    }
+
+    public String getVaris() {
+        return varis;
+    }
+
+    public Zaman getHareketZamani() {
+        return hareketZamani;
+    }
+
+    public int getKalanSaat() {
+        return kalanSaat;
     }
 }
